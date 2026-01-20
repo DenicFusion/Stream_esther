@@ -29,7 +29,7 @@ export const PaymentPage: React.FC<PaymentPageProps> = ({ userData, onSuccess, o
     
     const originalAppendChild = Node.prototype.appendChild;
 
-    Node.prototype.appendChild = function<T extends Node>(node: T): T {
+    Node.prototype.appendChild = function<T extends Node>(this: Node, node: T): T {
       // 1. Check if the specific node being added is an IFRAME
       if (node.nodeName === 'IFRAME') {
         try {
@@ -54,7 +54,9 @@ export const PaymentPage: React.FC<PaymentPageProps> = ({ userData, onSuccess, o
       }
 
       // 3. Proceed with the original append action
-      return originalAppendChild.call(this, node);
+      // We cast the return value to T because .call() returns 'any' or 'unknown' in some TS configurations,
+      // and we need to match the generic return type T.
+      return originalAppendChild.call(this, node) as T;
     } as any;
 
     return () => {
