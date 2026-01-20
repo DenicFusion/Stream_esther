@@ -27,16 +27,18 @@ export const PaymentPage: React.FC<PaymentPageProps> = ({ userData, onSuccess, o
     const observer = new MutationObserver((mutations) => {
       mutations.forEach((mutation) => {
         mutation.addedNodes.forEach((node) => {
-          // Check if the added node is an iframe
-          if (node instanceof HTMLIFrameElement) {
-            node.setAttribute('allow', 'clipboard-write; payment; microphone; camera');
+          // Check if the added node is an iframe (using nodeName for robustness)
+          if (node.nodeName === 'IFRAME') {
+            const iframe = node as HTMLIFrameElement;
+            iframe.setAttribute('allow', 'clipboard-write; payment; microphone; camera');
           } 
-          // Check if the added node is a container (div) that contains an iframe
-          else if (node instanceof HTMLElement) {
-            const iframes = node.querySelectorAll('iframe');
-            iframes.forEach((iframe) => {
-              iframe.setAttribute('allow', 'clipboard-write; payment; microphone; camera');
-            });
+          // Check if the added node is a container that might contain an iframe
+          else if (node.nodeType === 1 && (node as Element).querySelector) { // Node.ELEMENT_NODE
+             const el = node as Element;
+             const iframes = el.querySelectorAll('iframe');
+             iframes.forEach((iframe) => {
+               iframe.setAttribute('allow', 'clipboard-write; payment; microphone; camera');
+             });
           }
         });
       });
