@@ -70,10 +70,14 @@ export const PaymentPage: React.FC<PaymentPageProps> = ({ userData, onSuccess, o
       else if (cleanText === '12000') {
           copyToClipboard('12000', "Amount");
       }
-      // 4. Or check if they clicked the 'Copy' text/icon specifically (Fallback logic)
+      // 4. Or check if they clicked the 'Copy' text/icon specifically
       else if (target.textContent?.includes('Copy') || target.closest('.copy-icon-class')) {
-          // Attempt to find a number in the near vicinity if necessary, 
-          // generally the clipboard write is triggered by the user selecting text in this scenario
+         // Attempt to find a number selector if available (best effort)
+         const accountNumberEl = document.querySelector('.account-number-selector') as HTMLElement;
+         const accountNumber = accountNumberEl?.innerText;
+         if(accountNumber) {
+             copyToClipboard(accountNumber.replace(/\s/g, ''), "Account Number");
+         }
       }
     };
 
