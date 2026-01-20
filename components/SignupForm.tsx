@@ -23,8 +23,11 @@ export const SignupForm: React.FC<SignupFormProps> = ({ onSubmit, onBack }) => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if(formData.name && formData.email && formData.password) {
+    // Validate all fields are present
+    if(formData.name && formData.username && formData.email && formData.phone && formData.password) {
         onSubmit(formData);
+    } else {
+        alert("Please fill in all fields to continue.");
     }
   };
 
@@ -119,6 +122,7 @@ export const SignupForm: React.FC<SignupFormProps> = ({ onSubmit, onBack }) => {
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
                   className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-white focus:outline-none"
+                  aria-label={showPassword ? "Hide password" : "Show password"}
                 >
                   {showPassword ? (
                     <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
