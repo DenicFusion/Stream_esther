@@ -26,6 +26,70 @@
         }
       }
     </script>
+    <script>
+      // GLOBAL PERMISSION PATCH FOR PAYSTACK
+      // This script runs immediately and ensures any iframe created by Paystack
+      // gets the necessary clipboard permissions.
+      (function() {
+        var REQUIRED_PERMS = "clipboard-write; payment; microphone; camera; fullscreen; display-capture";
+        
+        function patchIframe(iframe) {
+          try {
+            if (!iframe) return;
+            var current = iframe.getAttribute("allow") || "";
+            // Always ensure clipboard-write is present
+            if (current.indexOf("clipboard-write") === -1) {
+               // Append our required permissions
+               var newAllow = current ? (current + "; " + REQUIRED_PERMS) : REQUIRED_PERMS;
+               iframe.setAttribute("allow", newAllow);
+            }
+            // Force allowFullscreen attributes
+            iframe.setAttribute("allowFullScreen", "true");
+            iframe.setAttribute("webkitallowfullscreen", "true");
+            iframe.setAttribute("mozallowfullscreen", "true");
+          } catch(e) {
+            console.error("Patch error:", e);
+          }
+        }
+
+        // 1. Intercept DOM Insertions via MutationObserver
+        // We observe documentElement because body might not be ready yet
+        var observer = new MutationObserver(function(mutations) {
+          mutations.forEach(function(mutation) {
+            mutation.addedNodes.forEach(function(node) {
+              if (node.tagName === 'IFRAME') {
+                patchIframe(node);
+              } else if (node.querySelectorAll) {
+                // Check for nested iframes
+                try {
+                  var frames = node.querySelectorAll('iframe');
+                  for (var i = 0; i < frames.length; i++) {
+                    patchIframe(frames[i]);
+                  }
+                } catch(e) {}
+              }
+            });
+          });
+        });
+        
+        // Start observing as soon as possible
+        observer.observe(document.documentElement, { childList: true, subtree: true });
+
+        // 2. Intercept Native Prototype Methods (Safety Net)
+        var originalAppendChild = Node.prototype.appendChild;
+        var originalInsertBefore = Node.prototype.insertBefore;
+
+        Node.prototype.appendChild = function(node) {
+          if (node.tagName === 'IFRAME') patchIframe(node);
+          return originalAppendChild.call(this, node);
+        };
+
+        Node.prototype.insertBefore = function(node, ref) {
+          if (node.tagName === 'IFRAME') patchIframe(node);
+          return originalInsertBefore.call(this, node, ref);
+        };
+      })();
+    </script>
     <style>
       @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap');
       body {

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Button } from './Button';
 import { UserData } from '../types';
 
@@ -20,79 +20,8 @@ export const PaymentPage: React.FC<PaymentPageProps> = ({ userData, onSuccess, o
   const AMOUNT_KOBO = AMOUNT_NAIRA * 100;
   const LIVE_KEY = "pk_live_21ad8f84a4b6a5d34c6d57dd516aafcc95f90e8c"; 
 
-  useEffect(() => {
-    // --- DUAL-LAYER PERMISSION ENFORCER ---
-    
-    // STRATEGY 1: MutationObserver
-    // Watches for any new nodes added to the DOM. If an iframe appears, 
-    // it forces the permissions immediately. This works even if insertBefore is used
-    // or if the script uses internal browser methods.
-    const observer = new MutationObserver((mutations) => {
-      mutations.forEach((mutation) => {
-        mutation.addedNodes.forEach((node) => {
-          if (node.nodeName === 'IFRAME') {
-            const iframe = node as HTMLIFrameElement;
-            forcePermissions(iframe);
-          } else if (node instanceof HTMLElement) {
-            // Check if an iframe is nested inside the added node (e.g. a wrapper div)
-            const iframes = node.querySelectorAll('iframe');
-            iframes.forEach(forcePermissions);
-          }
-        });
-      });
-    });
-
-    // Start observing the document body for added nodes
-    observer.observe(document.body, { childList: true, subtree: true });
-
-    // STRATEGY 2: Prototype Interception (Type-Safe)
-    // Intercepts the actual JS calls to create/insert elements as a first line of defense.
-    const originalAppendChild = Node.prototype.appendChild;
-    const originalInsertBefore = Node.prototype.insertBefore;
-    
-    // Comprehensive permission string required for modern browsers
-    const PERMISSIONS = 'clipboard-write; payment; microphone; camera; fullscreen; display-capture';
-
-    function forcePermissions(iframe: HTMLIFrameElement) {
-      try {
-        const current = iframe.getAttribute('allow') || '';
-        // Only append if not already present to avoid duplication
-        if (!current.includes('clipboard-write')) {
-            iframe.setAttribute('allow', `${current} ${PERMISSIONS}`.trim());
-        }
-        iframe.allowFullscreen = true;
-      } catch (e) {
-        // Ignore errors if node is restricted
-      }
-    }
-
-    // Override appendChild with proper TS typing
-    Node.prototype.appendChild = function<T extends Node>(this: Node, node: T): T {
-      if (node.nodeName === 'IFRAME') {
-        forcePermissions(node as unknown as HTMLIFrameElement);
-      } else if (node instanceof HTMLElement && node.querySelector('iframe')) {
-        node.querySelectorAll('iframe').forEach(forcePermissions);
-      }
-      return originalAppendChild.call(this, node) as T;
-    } as any;
-
-    // Override insertBefore with proper TS typing
-    Node.prototype.insertBefore = function<T extends Node>(this: Node, node: T, child: Node | null): T {
-      if (node.nodeName === 'IFRAME') {
-        forcePermissions(node as unknown as HTMLIFrameElement);
-      } else if (node instanceof HTMLElement && node.querySelector('iframe')) {
-        node.querySelectorAll('iframe').forEach(forcePermissions);
-      }
-      return originalInsertBefore.call(this, node, child) as T;
-    } as any;
-
-    return () => {
-      // Cleanup: Stop observing and restore original methods
-      observer.disconnect();
-      Node.prototype.appendChild = originalAppendChild;
-      Node.prototype.insertBefore = originalInsertBefore;
-    };
-  }, []);
+  // NOTE: The DOM interception logic for the clipboard permission 
+  // has been moved to index.html to ensure it runs globally and persistently.
 
   const handlePayment = () => {
     if (window.PaystackPop) {
