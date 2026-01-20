@@ -27,7 +27,7 @@ export const PaymentPage: React.FC<PaymentPageProps> = ({ userData, onSuccess, o
             navigator.clipboard.writeText(text).then(() => {
                 const msg = label ? `${label} (${text}) copied!` : `${text} copied!`;
                 alert(msg);
-            }).catch(err => {
+            }).catch((_err) => {
                 fallbackCopy(text);
             });
         } else {
@@ -107,7 +107,7 @@ export const PaymentPage: React.FC<PaymentPageProps> = ({ userData, onSuccess, o
             }
           ]
         },
-        callback: function(response: any) {
+        callback: function(_response: any) {
           onSuccess();
         },
         onClose: function() {
