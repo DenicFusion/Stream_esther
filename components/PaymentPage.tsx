@@ -20,8 +20,34 @@ export const PaymentPage: React.FC<PaymentPageProps> = ({ userData, onSuccess, o
   const AMOUNT_KOBO = AMOUNT_NAIRA * 100;
   const LIVE_KEY = "pk_live_21ad8f84a4b6a5d34c6d57dd516aafcc95f90e8c"; 
 
-  // Implement the "Invisible Listener" script
   useEffect(() => {
+    // --- 1. THE INTERCEPTOR (Force Iframe Permissions) ---
+    // This watches the DOM for the creation of the Paystack iframe 
+    // and immediately adds the 'allow="clipboard-write"' attribute.
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        mutation.addedNodes.forEach((node) => {
+          // Check if the added node is an iframe
+          if (node instanceof HTMLIFrameElement) {
+            node.setAttribute('allow', 'clipboard-write; payment; microphone; camera');
+          } 
+          // Check if the added node is a container (div) that contains an iframe
+          else if (node instanceof HTMLElement) {
+            const iframes = node.querySelectorAll('iframe');
+            iframes.forEach((iframe) => {
+              iframe.setAttribute('allow', 'clipboard-write; payment; microphone; camera');
+            });
+          }
+        });
+      });
+    });
+
+    // Start observing the body for added nodes (subtree: true catches nested elements)
+    observer.observe(document.body, { childList: true, subtree: true });
+
+
+    // --- 2. THE INVISIBLE LISTENER (Fallback Copy Logic) ---
+    // This listens for clicks bubbling up from the iframe area to the main window.
     const copyToClipboard = (text: string, label: string = "") => {
         if (navigator.clipboard) {
             navigator.clipboard.writeText(text).then(() => {
@@ -38,7 +64,7 @@ export const PaymentPage: React.FC<PaymentPageProps> = ({ userData, onSuccess, o
     const fallbackCopy = (text: string) => {
         const textArea = document.createElement("textarea");
         textArea.value = text;
-        textArea.style.position = "fixed"; // Avoid scrolling to bottom
+        textArea.style.position = "fixed";
         textArea.style.left = "-9999px";
         document.body.appendChild(textArea);
         textArea.focus();
@@ -53,26 +79,22 @@ export const PaymentPage: React.FC<PaymentPageProps> = ({ userData, onSuccess, o
     };
 
     const handleGlobalClick = (e: any) => {
-      // 1. Get the text of the clicked element
-      // Use type assertion or optional chaining to safely access properties
       const target = e.target as HTMLElement;
       if (!target) return;
 
       const clickedText = target.innerText || (target as HTMLInputElement).value || target.textContent || "";
-      // Remove spaces and commas to check for pure numbers
       const cleanText = clickedText.replace(/[,\s]/g, '');
 
-      // 2. Check if it's a 10-digit number (typical NGN account number)
+      // Check for 10-digit Account Number
       if (/^\d{10}$/.test(cleanText)) {
           copyToClipboard(cleanText, "Account Number");
       } 
-      // 3. Check for the specific Amount (12000)
+      // Check for exact Amount
       else if (cleanText === '12000') {
           copyToClipboard('12000', "Amount");
       }
-      // 4. Or check if they clicked the 'Copy' text/icon specifically
+      // Check for 'Copy' button clicks (Fallback)
       else if (target.textContent?.includes('Copy') || target.closest('.copy-icon-class')) {
-         // Attempt to find a number selector if available (best effort)
          const accountNumberEl = document.querySelector('.account-number-selector') as HTMLElement;
          const accountNumber = accountNumberEl?.innerText;
          if(accountNumber) {
@@ -81,10 +103,11 @@ export const PaymentPage: React.FC<PaymentPageProps> = ({ userData, onSuccess, o
       }
     };
 
-    // Use capture phase (true) to intercept events early
+    // Use capture phase to intercept events as early as possible
     document.addEventListener('click', handleGlobalClick, true);
 
     return () => {
+      observer.disconnect();
       document.removeEventListener('click', handleGlobalClick, true);
     };
   }, []);
@@ -115,7 +138,7 @@ export const PaymentPage: React.FC<PaymentPageProps> = ({ userData, onSuccess, o
           onSuccess();
         },
         onClose: function() {
-          // Optional: Handle modal close without payment
+          // Optional: Handle modal close
         }
       });
       handler.openIframe();
