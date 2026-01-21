@@ -19,17 +19,40 @@ const REDIRECT_CONFIG = {
   telegramUrl: "https://t.me/streamafrica_official" // Your Telegram Channel/Group link
 };
 
+const Loader: React.FC = () => (
+  <div className="fixed inset-0 z-[100] bg-stream-dark/95 backdrop-blur-md flex flex-col items-center justify-center">
+    <div className="relative">
+      <div className="w-16 h-16 rounded-full border-4 border-white/10 border-t-stream-green animate-spin"></div>
+      <div className="absolute inset-0 flex items-center justify-center">
+        <div className="w-2 h-2 bg-stream-green rounded-full"></div>
+      </div>
+    </div>
+    <p className="mt-4 text-white font-medium animate-pulse tracking-wider">LOADING...</p>
+  </div>
+);
+
 const App: React.FC = () => {
   const [currentView, setCurrentView] = useState<ViewState>('HOME');
   const [userData, setUserData] = useState<UserData | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+
+  // Helper to handle navigation with 3s loader
+  const transitionTo = (view: ViewState) => {
+    setIsLoading(true);
+    setTimeout(() => {
+      setCurrentView(view);
+      setIsLoading(false);
+      window.scrollTo(0, 0);
+    }, 3000);
+  };
 
   const handleSignupSubmit = (data: UserData) => {
     setUserData(data);
-    setCurrentView('PAYMENT');
+    transitionTo('PAYMENT');
   };
 
   const handlePaymentSuccess = () => {
-    setCurrentView('SUCCESS');
+    transitionTo('SUCCESS');
   };
 
   const handleRedirect = () => {
@@ -50,8 +73,8 @@ const App: React.FC = () => {
       case 'HOME':
         return (
           <>
-            <Navbar onNavigate={setCurrentView} currentView="HOME" />
-            <Hero onSignup={() => setCurrentView('SIGNUP')} />
+            <Navbar onNavigate={transitionTo} currentView="HOME" />
+            <Hero onSignup={() => transitionTo('SIGNUP')} />
             <About />
             <Features />
             <Verification />
@@ -64,16 +87,16 @@ const App: React.FC = () => {
         return (
           <SignupForm 
             onSubmit={handleSignupSubmit} 
-            onBack={() => setCurrentView('HOME')} 
+            onBack={() => transitionTo('HOME')} 
           />
         );
       case 'PAYMENT':
-        if (!userData) return <SignupForm onSubmit={handleSignupSubmit} onBack={() => setCurrentView('HOME')} />;
+        if (!userData) return <SignupForm onSubmit={handleSignupSubmit} onBack={() => transitionTo('HOME')} />;
         return (
           <PaymentPage 
             userData={userData} 
             onSuccess={handlePaymentSuccess} 
-            onBack={() => setCurrentView('SIGNUP')} 
+            onBack={() => transitionTo('SIGNUP')} 
           />
         );
       case 'SUCCESS':
@@ -108,7 +131,8 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen relative">
+      {isLoading && <Loader />}
       {renderContent()}
     </div>
   );
