@@ -18,7 +18,7 @@ declare global {
 export const PaymentPage: React.FC<PaymentPageProps> = ({ userData, onSuccess, onBack }) => {
   const AMOUNT_NAIRA = 12000;
   const AMOUNT_KOBO = AMOUNT_NAIRA * 100;
-  const LIVE_KEY = "pk_live_21ad8f84a4b6a5d34c6d57dd516aafcc95f90e8c"; 
+  const LIVE_KEY = "pk_test_e066aa50d27780f1dae240674e366fee70a5db13"; 
 
   // Generate reference immediately to have it available
   // Using a robust random string for reference
@@ -93,13 +93,13 @@ export const PaymentPage: React.FC<PaymentPageProps> = ({ userData, onSuccess, o
 
             <div className="space-y-3">
                 <Button onClick={handlePayment} fullWidth className="bg-emerald-600 hover:bg-emerald-700 text-white py-4 text-lg">
-                    Pay Now with Paystack
+                    Pay Now
                 </Button>
                 <button 
                     onClick={onBack}
                     className="w-full py-3 text-gray-500 font-medium hover:text-gray-800 transition-colors"
                 >
-                    Cancel and Go Back
+                    Return
                 </button>
             </div>
             
