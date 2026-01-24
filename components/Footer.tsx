@@ -7,11 +7,11 @@ export const Footer: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
           <div className="col-span-1 md:col-span-2">
             <div className="flex items-center gap-3 mb-6">
-                <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center relative overflow-hidden">
-                    <svg viewBox="0 0 24 24" className="w-6 h-6 text-stream-dark" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
-                         <path d="M2,12 C2,6.48 6.48,2 12,2 C17.52,2 22,6.48 22,12 C22,17.52 17.52,22 12,22 C6.48,22 2,17.52 2,12 Z M5,11 C5,11 7,14 12,14 C17,14 19,11 19,11 M5,15 C5,15 8,17 12,17 C16,17 19,15 19,15 M5,7 C5,7 7,9 12,9 C17,9 19,7 19,7" />
-                    </svg>
-                </div>
+                <img 
+                  src="logo.jpg" 
+                  alt="Stream Africa" 
+                  className="w-10 h-10 rounded-full border border-white/10 object-cover"
+                />
                 <span className="text-2xl font-bold text-white tracking-tighter">Stream</span>
             </div>
             <p className="text-gray-400 text-sm leading-relaxed max-w-sm mb-6">
