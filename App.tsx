@@ -179,12 +179,12 @@ const App: React.FC = () => {
                 </svg>
               </div>
               <h2 className="text-4xl font-bold text-white mb-4 relative z-10">
-                 {isManual ? 'Transfer Received!' : 'Activation Success!'}
+                 {isManual ? 'Transaction pending!' : 'Activation Success!'}
               </h2>
               <p className="text-xl text-gray-300 mb-6 relative z-10">
                 {isManual 
-                  ? 'Your transfer notification has been received. Our team will verify your payment shortly.' 
-                  : 'Your payment was successful. Your account is now fully active and verified.'}
+                  ? 'Your transfer notification has been received. Our team will verify your payment shortly.Kindly proceed with the botton below.' 
+                  : 'Your payment was successful. Your account is now fully active and verified. click the botton below for approval.'}
               </p>
               
               <div className="bg-white/5 p-4 rounded-xl mb-8 border border-white/5 relative z-10">
