@@ -12,7 +12,7 @@ export const SHOW_DASHBOARD_BEFORE_PAYMENT = true;
 export const OPAY_PUBLIC_KEY = "OPAYPUB17691774750010.6524153887502064";
 
 // IMPORTANT: Replace "YOUR_MERCHANT_ID" with your actual OPay Merchant ID from your dashboard.
-export const OPAY_MERCHANT_ID = "281826012352775"; 
+export const OPAY_MERCHANT_ID = "YOUR_MERCHANT_ID"; 
 
 // Using Sandbox URL for testing since we are using a Test Key
 export const OPAY_API_URL = "https://sandboxapi.opaycheckout.com/api/v1/international/cashier/create";
