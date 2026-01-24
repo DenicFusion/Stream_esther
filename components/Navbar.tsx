@@ -46,13 +46,13 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate, currentView }) => {
           
           <div className="hidden md:block">
             <div className="ml-10 flex items-baseline space-x-8">
-              <button onClick={() => onNavigate('HOME')} className={`text-gray-300 hover:text-stream-green px-3 py-2 rounded-md text-sm font-medium transition-colors`}>Home</button>
-              <button onClick={() => handleScroll('features')} className={`text-gray-300 hover:text-stream-green px-3 py-2 rounded-md text-sm font-medium transition-colors`}>Features</button>
-              <button onClick={() => handleScroll('faq')} className={`text-gray-300 hover:text-stream-green px-3 py-2 rounded-md text-sm font-medium transition-colors`}>FAQs</button>
+              <button onClick={() => onNavigate('HOME')} className={`text-gray-300 hover:${isBlue ? 'text-sky-400' : 'text-stream-green'} px-3 py-2 rounded-md text-sm font-medium transition-colors`}>Home</button>
+              <button onClick={() => handleScroll('features')} className={`text-gray-300 hover:${isBlue ? 'text-sky-400' : 'text-stream-green'} px-3 py-2 rounded-md text-sm font-medium transition-colors`}>Features</button>
+              <button onClick={() => handleScroll('faq')} className={`text-gray-300 hover:${isBlue ? 'text-sky-400' : 'text-stream-green'} px-3 py-2 rounded-md text-sm font-medium transition-colors`}>FAQs</button>
               {currentView === 'HOME' && (
                 <Button 
                   onClick={() => onNavigate('SIGNUP')} 
-                  className={`ml-4 !rounded-full !px-8 !py-2.5 !bg-gradient-to-r ${isBlue ? 'from-sky-500 to-blue-600' : 'from-stream-green to-emerald-600'} hover:scale-105 transition-transform`}
+                  className={`ml-4 !rounded-full !px-8 !py-2.5 !border-0 ${isBlue ? '!bg-gradient-to-r !from-sky-500 !to-blue-600' : '!bg-gradient-to-r !from-stream-green !to-emerald-600'} hover:scale-105 transition-transform !shadow-lg`}
                 >
                   Get Started
                 </Button>
@@ -106,7 +106,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigate, currentView }) => {
                 <Button 
                   onClick={() => { onNavigate('SIGNUP'); setIsOpen(false); }} 
                   fullWidth 
-                  className={`!rounded-xl !py-4 !text-lg !bg-gradient-to-r ${isBlue ? 'from-sky-500 to-blue-600' : 'from-stream-green to-emerald-600'} shadow-xl`}
+                  className={`!rounded-xl !py-4 !text-lg !border-0 ${isBlue ? '!bg-gradient-to-r !from-sky-500 !to-blue-600' : '!bg-gradient-to-r !from-stream-green !to-emerald-600'} shadow-xl`}
                 >
                   Sign Up Now
                 </Button>

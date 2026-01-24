@@ -13,7 +13,7 @@ export const NotificationToast: React.FC<NotificationToastProps> = ({ type }) =>
   useEffect(() => {
     const INITIAL_DELAY = 2000;
     const SHOW_DURATION = 4000;
-    const GAP_DURATION = 3000;
+    const GAP_DURATION = 3500;
 
     let timeoutId: ReturnType<typeof setTimeout>;
 
@@ -39,19 +39,18 @@ export const NotificationToast: React.FC<NotificationToastProps> = ({ type }) =>
     return () => clearTimeout(timeoutId);
   }, []);
 
-  const animationClass = visible 
-    ? 'animate-slideDown opacity-100 translate-y-0' 
-    : 'animate-slideUp opacity-0 -translate-y-[150%]';
+  // Center horizontally using left-1/2 and use keyframes defined in index.html
+  // slideDown/slideUp handle the translate(-50%, ...) logic
+  const animationClass = visible ? 'animate-slideDown' : 'animate-slideUp';
 
   const avatarLetter = data.name.charAt(0).toUpperCase();
   
-  // Color selection based on theme
   const activateColor = isBlue ? 'bg-indigo-600' : 'bg-emerald-500';
   const registerColor = isBlue ? 'bg-sky-600' : 'bg-blue-600';
   const avatarBg = type === 'ACTIVATE' ? activateColor : registerColor;
 
   return (
-    <div className={`fixed top-4 left-1/2 z-[60] w-[90%] max-w-[360px] transform -translate-x-1/2 ${animationClass}`}>
+    <div className={`fixed top-4 left-1/2 z-[60] w-[90%] max-w-[360px] ${animationClass}`}>
       <div className="bg-[#1c1c1e]/90 backdrop-blur-xl border border-white/10 shadow-2xl rounded-[2rem] p-3 pr-5 flex items-center gap-3">
         
         {/* Avatar Icon */}
