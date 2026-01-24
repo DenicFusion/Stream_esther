@@ -77,15 +77,15 @@ export const SignupForm: React.FC<SignupFormProps> = ({ onSubmit, onBack, initia
     }
   };
 
-  // Fixed Hide and Seek Toggle
+  // Restored Hide and Seek Toggle - Exact match of the second image (clean Eye-Off SVG)
   const PasswordToggle = () => (
     <button
       type="button"
       onClick={() => setShowPassword(!showPassword)}
-      className="absolute right-0 top-1/2 -translate-y-1/2 h-full w-14 flex items-center justify-center text-gray-500 hover:text-white transition-all cursor-pointer z-20 group"
+      className="absolute right-0 top-0 h-full w-14 flex items-center justify-center text-gray-500 hover:text-white transition-all cursor-pointer z-20 group"
       aria-label={showPassword ? "Hide password" : "Show password"}
     >
-      <div className="p-2 rounded-lg transition-colors group-hover:bg-white/5">
+      <div className="p-2 rounded-lg transition-colors group-hover:bg-white/5 flex items-center justify-center">
         {showPassword ? (
           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.8" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
