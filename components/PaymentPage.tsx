@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button } from './Button';
 import { UserData } from '../types';
-import { PAYMENT_MODE, OPAY_PUBLIC_KEY, BANK_DETAILS } from '../config';
+import { PAYMENT_MODE, OPAY_PUBLIC_KEY, OPAY_MERCHANT_ID, BANK_DETAILS } from '../config';
 
 interface PaymentPageProps {
   userData: UserData;
@@ -26,6 +26,7 @@ export const PaymentPage: React.FC<PaymentPageProps> = ({ userData, onSuccess, o
   );
   
   const [copied, setCopied] = useState<string | null>(null);
+  const [loadingOpay, setLoadingOpay] = useState(false);
 
   const reference = "STREAM-" + Math.floor((Math.random() * 1000000000) + 1);
 
@@ -59,11 +60,53 @@ export const PaymentPage: React.FC<PaymentPageProps> = ({ userData, onSuccess, o
     setTimeout(() => setCopied(null), 2000);
   };
 
-  const handleOpayCheckout = () => {
-      // Mock Opay Checkout redirection or integration
-      alert(`Redirecting to Opay Checkout...\nAmount: ₦${AMOUNT_NAIRA}\nRef: ${reference}`);
-      // Simulate success for demo purposes if needed
-      // onSuccess(reference); 
+  const handleOpayCheckout = async () => {
+      setLoadingOpay(true);
+      try {
+        const payload = {
+          country: "NG",
+          reference: reference,
+          amount: {
+            total: AMOUNT_KOBO.toString(),
+            currency: "NGN"
+          },
+          returnUrl: window.location.origin, // Simple redirect back to app, state handling will check session/ref if implemented
+          callbackUrl: "https://your-site.com/api/opay-webhook",
+          userInfo: {
+            userEmail: userData.email,
+            userName: userData.name
+          },
+          product: {
+            name: "Stream Africa Activation",
+            description: "Lifetime Access Activation Fee"
+          }
+        };
+
+        const response = await fetch("https://api.opaycheckout.com/api/v1/international/cashier/create", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${OPAY_PUBLIC_KEY}`,
+            "MerchantId": OPAY_MERCHANT_ID
+          },
+          body: JSON.stringify(payload)
+        });
+
+        const data = await response.json();
+        
+        if (data.code === "00000" && data.data && data.data.cashierUrl) {
+           // Redirect user to OPay Cashier
+           window.location.href = data.data.cashierUrl;
+        } else {
+           console.error("OPay Error:", data);
+           alert(`OPay Error: ${data.message || 'Unknown error occurred'}`);
+        }
+      } catch (error) {
+        console.error("OPay Request Failed:", error);
+        alert("Failed to connect to OPay. Please check your internet connection or try another method.");
+      } finally {
+        setLoadingOpay(false);
+      }
   };
 
   const handleTransferDone = () => {
@@ -188,8 +231,13 @@ export const PaymentPage: React.FC<PaymentPageProps> = ({ userData, onSuccess, o
                              Seamless Opay-to-Opay checkout. Click below to authorize securely.
                          </p>
                      </div>
-                     <Button onClick={handleOpayCheckout} fullWidth className="bg-blue-500 hover:bg-blue-600 text-white py-4 text-lg shadow-lg shadow-blue-500/20">
-                        Pay with Opay
+                     <Button 
+                        onClick={handleOpayCheckout} 
+                        fullWidth 
+                        disabled={loadingOpay}
+                        className="bg-blue-500 hover:bg-blue-600 text-white py-4 text-lg shadow-lg shadow-blue-500/20 disabled:opacity-70 disabled:cursor-not-allowed"
+                     >
+                        {loadingOpay ? 'Initializing...' : 'Pay with Opay'}
                     </Button>
                 </div>
             )}

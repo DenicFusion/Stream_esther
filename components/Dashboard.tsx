@@ -151,13 +151,13 @@ export const Dashboard: React.FC<DashboardProps> = ({ userData, onActivate }) =>
       {/* Live Payout Ticker */}
       <div className="fixed bottom-20 left-0 right-0 bg-black/80 backdrop-blur-md border-y border-white/5 py-2 overflow-hidden z-30">
          <div className="whitespace-nowrap flex gap-8 animate-marquee text-xs text-gray-400">
-            <span>User_882 withdrew ₦45,000 via Daily Flow</span>
-            <span>User_104 withdrew ₦12,500 via TCN</span>
-            <span>User_993 withdrew ₦8,000 via Bazaar</span>
-            <span>User_442 just activated Account</span>
-            <span>User_331 withdrew ₦90,000 via Audio Collab</span>
-            <span>User_882 withdrew ₦45,000 via Daily Flow</span>
-            <span>User_104 withdrew ₦12,500 via TCN</span>
+            <span>Chinedu A. withdrew ₦45,000 via Daily Flow</span>
+            <span>Sarah K. withdrew ₦15,500 via TCN</span>
+            <span>Emmanuel O. withdrew ₦18,000 via Bazaar</span>
+            <span>Zainab B. just activated Account</span>
+            <span>David I. withdrew ₦90,000 via Audio Collab</span>
+            <span>Ngozi E. withdrew ₦22,000 via Daily Flow</span>
+            <span>Tunde B. withdrew ₦15,000 via TCN</span>
          </div>
          <style>{`
            @keyframes marquee {

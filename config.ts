@@ -9,6 +9,7 @@ export const SHOW_DASHBOARD_BEFORE_PAYMENT = true;
 
 // Opay Configuration
 export const OPAY_PUBLIC_KEY = "OPAYPUB17691774750010.6524153887502064";
+export const OPAY_MERCHANT_ID = "YOUR_MERCHANT_ID"; // <--- REPLACE THIS WITH YOUR REAL MERCHANT ID
 
 // Bank Details
 export const BANK_DETAILS = [
