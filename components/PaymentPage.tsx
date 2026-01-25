@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from './Button';
 import { UserData } from '../types';
-import { PAYMENT_MODE, OPAY_PUBLIC_KEY, OPAY_MERCHANT_ID, OPAY_API_URL, BANK_DETAILS, THEME_COLOR } from '../config';
+import { PAYMENT_MODE, OPAY_PUBLIC_KEY, OPAY_MERCHANT_ID, OPAY_API_URL, BANK_DETAILS, THEME_COLOR, PAYMENT_TIMER_MINUTES } from '../config';
 import { CustomAlert } from './CustomAlert';
 
 interface PaymentPageProps {
@@ -29,11 +29,44 @@ export const PaymentPage: React.FC<PaymentPageProps> = ({ userData, onSuccess, o
   const [copied, setCopied] = useState<string | null>(null);
   const [loadingOpay, setLoadingOpay] = useState(false);
   const [alertState, setAlertState] = useState<{show: boolean, title: string, message: string, type: 'info'|'error'|'success'}>({show: false, title:'', message:'', type:'info'});
+  
+  // Timer State
+  const [timeLeft, setTimeLeft] = useState(PAYMENT_TIMER_MINUTES * 60);
 
   const isBlue = THEME_COLOR === 'BLUE';
 
   const showAlert = (title: string, message: string, type: 'info'|'error'|'success' = 'info') => {
       setAlertState({ show: true, title, message, type });
+  };
+
+  // Timer Logic
+  useEffect(() => {
+    let timerId: ReturnType<typeof setInterval>;
+    
+    // Only run timer if we are in Transfer mode
+    if (activeTab === 'TRANSFER') {
+        if (timeLeft > 0) {
+            timerId = setInterval(() => {
+                setTimeLeft((prev) => prev - 1);
+            }, 1000);
+        } else {
+            // Timer expired
+            showAlert("Session Expired", "Your payment session has timed out. Please try again.", "error");
+            setTimeout(() => {
+                onBack();
+            }, 2500);
+        }
+    }
+
+    return () => {
+        if (timerId) clearInterval(timerId);
+    };
+  }, [activeTab, timeLeft, onBack]);
+
+  const formatTime = (seconds: number) => {
+    const m = Math.floor(seconds / 60);
+    const s = seconds % 60;
+    return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
   };
 
   const handlePaystack = () => {
@@ -192,6 +225,18 @@ export const PaymentPage: React.FC<PaymentPageProps> = ({ userData, onSuccess, o
             {/* TRANSFER VIEW */}
             {activeTab === 'TRANSFER' && showTransfer && (
                 <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4">
+                    
+                    {/* Countdown Timer Badge */}
+                    <div className="flex items-center justify-between bg-red-50 border border-red-100 rounded-lg p-3 animate-pulse">
+                        <span className="text-red-600 text-sm font-semibold flex items-center gap-2">
+                           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                           Session Expires In:
+                        </span>
+                        <span className="text-red-600 text-lg font-mono font-bold tracking-wider">
+                            {formatTime(timeLeft)}
+                        </span>
+                    </div>
+
                     <p className="text-sm text-center text-gray-500 mb-2">
                         Click on a bank account to select it, then make the transfer.
                     </p>
