@@ -4,11 +4,14 @@
 export const THEME_COLOR: 'BLUE' | 'GREEN' = 'BLUE';
 
 // Payment Modes: 'TRUE' (Paystack), 'FALSE' (Transfer), 'NEUTRAL' (Transfer + Opay)
-export const PAYMENT_MODE: 'TRUE' | 'FALSE' | 'NEUTRAL' = 'FALSE';
+export const PAYMENT_MODE: 'TRUE' | 'FALSE' | 'NEUTRAL' = 'NEUTRAL';
 
 // If true, user goes to Dashboard (Demo Mode) after signup. 
 // If false, user goes directly to Payment page.
-export const SHOW_DASHBOARD_BEFORE_PAYMENT = false;
+export const SHOW_DASHBOARD_BEFORE_PAYMENT = true;
+
+// Payment Timer Duration (in minutes) for Manual Transfer
+export const PAYMENT_TIMER_MINUTES = 30;
 
 // Opay Configuration
 // TEST/SANDBOX KEY provided
@@ -23,15 +26,15 @@ export const OPAY_API_URL = "https://sandboxapi.opaycheckout.com/api/v1/internat
 // Bank Details
 export const BANK_DETAILS = [
   {
-    bankName: "PAGA",
-    accountNumber: "3244891292",
-    accountName: "MUSA ESTHER"
+    bankName: "Moniepoint MFB",
+    accountNumber: "7010661707",
+    accountName: "Chimezie David Igwe"
   },
   // Add second account here if needed for dual accounts
   {
-    bankName: "OPAY", 
-    accountNumber: "7066617981",
-    accountName: "MUSA ESTHER"
+    bankName: "Moniepoint MFB", 
+    accountNumber: "7010661707",
+    accountName: "Chimezie David Igwe (Backup)"
   }
 ];
 
