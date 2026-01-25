@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { UserData } from '../types';
 import { Button } from './Button';
 import { NotificationToast } from './NotificationToast';
@@ -14,6 +14,16 @@ export const Dashboard: React.FC<DashboardProps> = ({ userData, onActivate }) =>
   const [showActivateModal, setShowActivateModal] = useState(false);
   const isActivated = userData.isActivated || false;
   const isBlue = THEME_COLOR === 'BLUE';
+
+  // Auto-trigger Activation Modal after 5 seconds if not activated
+  useEffect(() => {
+    if (!isActivated) {
+      const timer = setTimeout(() => {
+        setShowActivateModal(true);
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [isActivated]);
 
   const handleProtectedAction = () => {
     if (!isActivated) {
@@ -64,7 +74,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ userData, onActivate }) =>
           <p className="text-gray-400 text-sm mb-1">Total Balance</p>
           <div className="flex items-baseline gap-1 mb-6">
             <span className="text-3xl font-bold text-white">₦</span>
-            <span className="text-4xl font-extrabold text-white tracking-tight">12,000.00</span>
+            <span className="text-4xl font-extrabold text-white tracking-tight">0.00</span>
           </div>
           <div className="grid grid-cols-2 gap-4">
             <button onClick={handleProtectedAction} className={`${isBlue ? 'bg-sky-500 shadow-sky-900/20' : 'bg-stream-green shadow-emerald-900/20'} text-white py-3 rounded-xl font-semibold text-sm shadow-lg active:scale-95 transition-transform`}>
@@ -138,7 +148,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ userData, onActivate }) =>
             <div className="flex justify-between items-center">
                 <div>
                    <h3 className={`${isBlue ? 'text-sky-400' : 'text-emerald-400'} font-bold text-sm`}>Invite Friends</h3>
-                   <p className="text-gray-400 text-xs">Earn ₦10,000 per invite</p>
+                   <p className="text-gray-400 text-xs">Earn ₦5,000 per invite</p>
                 </div>
                 <div className={`${isBlue ? 'bg-sky-500/20' : 'bg-emerald-500/20'} p-2 rounded-lg`}>
                     <svg className={`w-5 h-5 ${isBlue ? 'text-sky-400' : 'text-emerald-400'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/></svg>
