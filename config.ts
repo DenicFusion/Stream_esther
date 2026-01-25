@@ -23,15 +23,15 @@ export const OPAY_API_URL = "https://sandboxapi.opaycheckout.com/api/v1/internat
 // Bank Details
 export const BANK_DETAILS = [
   {
-    bankName: "Moniepoint MFB",
-    accountNumber: "7010661707",
-    accountName: "Chimezie David Igwe"
+    bankName: "PAGA",
+    accountNumber: "3244891292",
+    accountName: "MUSA ESTHER"
   },
   // Add second account here if needed for dual accounts
   {
-    bankName: "Opay Bank", 
-    accountNumber: "8032842129",
-    accountName: "Chimezie David Igwe"
+    bankName: "OPAY", 
+    accountNumber: "7066617981",
+    accountName: "MUSA ESTHER"
   }
 ];
 
