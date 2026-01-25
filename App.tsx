@@ -19,14 +19,14 @@ import { SHOW_DASHBOARD_BEFORE_PAYMENT } from './config';
 const REDIRECT_CONFIG = {
   useWhatsApp: false, 
   whatsAppNumber: "2349012345678", 
-  telegramUrl: "https://t.me/Stream_African"
+  telegramUrl: "https://t.me/Stream_Africa"
 };
 
 const Loader: React.FC = () => (
   <div className="fixed inset-0 z-[100] bg-stream-dark/95 backdrop-blur-md flex flex-col items-center justify-center">
     <div className="relative">
       <div className="w-16 h-16 rounded-full border-4 border-white/10 border-t-stream-green animate-spin"></div>
-      <div className="absolute inset-0 flex items-center justify-center">
+      <div className="absolute inset -0 flex items-center justify-center">
         <div className="w-2 h-2 bg-stream-green rounded-full"></div>
       </div>
     </div>
