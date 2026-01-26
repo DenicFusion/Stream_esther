@@ -4,14 +4,22 @@
 export const THEME_COLOR: 'BLUE' | 'GREEN' = 'BLUE';
 
 // Payment Modes: 'TRUE' (Paystack), 'FALSE' (Transfer), 'NEUTRAL' (Transfer + Opay)
-export const PAYMENT_MODE: 'TRUE' | 'FALSE' | 'NEUTRAL' = 'FALSE';
+export const PAYMENT_MODE: 'TRUE' | 'FALSE' | 'NEUTRAL' = 'NEUTRAL';
 
 // If true, user goes to Dashboard (Demo Mode) after signup. 
 // If false, user goes directly to Payment page.
-export const SHOW_DASHBOARD_BEFORE_PAYMENT = false;
+export const SHOW_DASHBOARD_BEFORE_PAYMENT = true;
 
 // Payment Timer Duration (in minutes) for Manual Transfer
 export const PAYMENT_TIMER_MINUTES = 30;
+
+// Admin Support Configuration
+export const SUPPORT_CONTACT = {
+  showOnHome: true, // Show FAB on homepage
+  method: 'WHATSAPP' as 'WHATSAPP' | 'TELEGRAM', // Toggle between 'WHATSAPP' and 'TELEGRAM'
+  whatsappNumber: "2349012345678", 
+  telegramUrl: "https://t.me/streamafrica_official"
+};
 
 // Opay Configuration
 // TEST/SANDBOX KEY provided
@@ -22,6 +30,7 @@ export const OPAY_MERCHANT_ID = "281826012352775";
 
 // Using Sandbox URL for testing since we are using a Test Key
 export const OPAY_API_URL = "https://sandboxapi.opaycheckout.com/api/v1/international/cashier/create";
+;
 
 // Bank Details
 export const BANK_DETAILS = [
