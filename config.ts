@@ -4,11 +4,11 @@
 export const THEME_COLOR: 'BLUE' | 'GREEN' = 'BLUE';
 
 // Payment Modes: 'TRUE' (Paystack), 'FALSE' (Transfer), 'NEUTRAL' (Transfer + Opay)
-export const PAYMENT_MODE: 'TRUE' | 'FALSE' | 'NEUTRAL' = 'NEUTRAL';
+export const PAYMENT_MODE: 'TRUE' | 'FALSE' | 'NEUTRAL' = 'FALSE';
 
 // If true, user goes to Dashboard (Demo Mode) after signup. 
 // If false, user goes directly to Payment page.
-export const SHOW_DASHBOARD_BEFORE_PAYMENT = true;
+export const SHOW_DASHBOARD_BEFORE_PAYMENT = false;
 
 // Payment Timer Duration (in minutes) for Manual Transfer
 export const PAYMENT_TIMER_MINUTES = 30;
