@@ -9,6 +9,7 @@ import { Footer } from './components/Footer';
 import { SignupForm } from './components/SignupForm';
 import { PaymentPage } from './components/PaymentPage';
 import { ScrollToTop } from './components/ScrollToTop';
+import { ContactFab } from './components/ContactFab';
 import { Dashboard } from './components/Dashboard';
 import { NotificationToast } from './components/NotificationToast';
 import { ViewState, UserData } from './types';
@@ -17,16 +18,16 @@ import { SHOW_DASHBOARD_BEFORE_PAYMENT } from './config';
 
 // CONFIGURATION FOR REDIRECT
 const REDIRECT_CONFIG = {
-  useWhatsApp: false, 
+  useWhatsApp: true, 
   whatsAppNumber: "2349012345678", 
-  telegramUrl: "https://t.me/verified_agent002"
+  telegramUrl: "https://t.me/streamafrica_official"
 };
 
 const Loader: React.FC = () => (
   <div className="fixed inset-0 z-[100] bg-stream-dark/95 backdrop-blur-md flex flex-col items-center justify-center">
     <div className="relative">
       <div className="w-16 h-16 rounded-full border-4 border-white/10 border-t-stream-green animate-spin"></div>
-      <div className="absolute inset -0 flex items-center justify-center">
+      <div className="absolute inset-0 flex items-center justify-center">
         <div className="w-2 h-2 bg-stream-green rounded-full"></div>
       </div>
     </div>
@@ -141,6 +142,7 @@ const App: React.FC = () => {
             <FAQ />
             <Footer />
             <ScrollToTop />
+            <ContactFab />
           </>
         );
       case 'SIGNUP':
@@ -179,12 +181,12 @@ const App: React.FC = () => {
                 </svg>
               </div>
               <h2 className="text-4xl font-bold text-white mb-4 relative z-10">
-                 {isManual ? 'Transaction pending!' : 'Activation Success!'}
+                 {isManual ? 'Transfer Received!' : 'Activation Success!'}
               </h2>
               <p className="text-xl text-gray-300 mb-6 relative z-10">
                 {isManual 
-                  ? 'Your transfer notification has been received. Our team will verify your payment shortly.Kindly proceed with the botton below.' 
-                  : 'Your payment was successful. Your account is now fully active and verified. click the botton below for approval.'}
+                  ? 'Your transfer notification has been received. Our team will verify your payment shortly.' 
+                  : 'Your payment was successful. Your account is now fully active and verified.'}
               </p>
               
               <div className="bg-white/5 p-4 rounded-xl mb-8 border border-white/5 relative z-10">
@@ -208,7 +210,7 @@ const App: React.FC = () => {
                     fullWidth 
                     className="relative text-lg py-4 !shadow-[0_0_20px_rgba(14,165,233,0.4)] !border-none"
                 >
-                  {REDIRECT_CONFIG.useWhatsApp ? 'Finalize on WhatsApp' : 'Finalize on Telegram'}
+                  {REDIRECT_CONFIG.useWhatsApp ? 'Submit Receipt on WhatsApp' : 'Finalize on Telegram'}
                 </Button>
               </div>
             </div>
