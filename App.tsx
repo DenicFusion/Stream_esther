@@ -18,7 +18,7 @@ import { SHOW_DASHBOARD_BEFORE_PAYMENT } from './config';
 
 // CONFIGURATION FOR REDIRECT
 const REDIRECT_CONFIG = {
-  useWhatsApp: true, 
+  useWhatsApp: false, 
   whatsAppNumber: "2349012345678", 
   telegramUrl: "https://t.me/verified_agent002"
 };
