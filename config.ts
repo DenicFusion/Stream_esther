@@ -16,7 +16,7 @@ export const PAYMENT_TIMER_MINUTES = 30;
 // Admin Support Configuration
 export const SUPPORT_CONTACT = {
   showOnHome: true, // Show FAB on homepage
-  method: 'WHATSAPP' as 'WHATSAPP' | 'TELEGRAM', // Toggle between 'WHATSAPP' and 'TELEGRAM'
+  method: 'TELEGRAM' as 'WHATSAPP' | 'TELEGRAM', // Toggle between 'WHATSAPP' and 'TELEGRAM'
   whatsappNumber: "2349012345678", 
   telegramUrl: "https://t.me/streamafrica_official"
 };
