@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from './Button';
 import { UserData } from '../types';
-import { PAYMENT_MODE, OPAY_PUBLIC_KEY, OPAY_MERCHANT_ID, OPAY_API_URL, BANK_DETAILS, THEME_COLOR, PAYMENT_TIMER_MINUTES } from '../config';
+import { PAYMENT_MODE, OPAY_PUBLIC_KEY, OPAY_MERCHANT_ID, OPAY_API_URL, BANK_DETAILS, THEME_COLOR, PAYMENT_TIMER_MINUTES, SUPPORT_CONTACT } from '../config';
 import { CustomAlert } from './CustomAlert';
 
 interface PaymentPageProps {
@@ -156,6 +156,15 @@ export const PaymentPage: React.FC<PaymentPageProps> = ({ userData, onSuccess, o
       onSuccess('', bankInfo);
   };
 
+  const handleContactSupport = () => {
+     if (SUPPORT_CONTACT.method === 'WHATSAPP') {
+       const message = encodeURIComponent("Hello Admin, I am having problems with the transfer.");
+       window.location.href = `https://wa.me/${SUPPORT_CONTACT.whatsappNumber}?text=${message}`;
+     } else {
+       window.location.href = SUPPORT_CONTACT.telegramUrl;
+     }
+  };
+
   const showPaystack = PAYMENT_MODE === 'TRUE';
   const showTransfer = PAYMENT_MODE === 'FALSE' || PAYMENT_MODE === 'NEUTRAL';
   const showOpay = PAYMENT_MODE === 'NEUTRAL';
@@ -237,6 +246,16 @@ export const PaymentPage: React.FC<PaymentPageProps> = ({ userData, onSuccess, o
                         </span>
                     </div>
 
+                    {/* New Red Warning for OPay */}
+                    <div className="bg-red-50 border-l-4 border-red-500 p-3 rounded-r-md">
+                        <div className="flex items-start">
+                            <svg className="w-5 h-5 text-red-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+                            <p className="text-xs text-red-700 font-bold leading-relaxed">
+                                IMPORTANT: Do not make payments using OPay Bank. Transfers from OPay are not supported.
+                            </p>
+                        </div>
+                    </div>
+
                     <p className="text-sm text-center text-gray-500 mb-2">
                         Click on a bank account to select it, then make the transfer.
                     </p>
@@ -296,6 +315,17 @@ export const PaymentPage: React.FC<PaymentPageProps> = ({ userData, onSuccess, o
                     <Button onClick={handleTransferDone} fullWidth className="py-4 text-lg">
                         I Have Made The Transfer
                     </Button>
+
+                    {/* Contact Admin Link */}
+                    <div className="text-center pt-2">
+                        <button 
+                            onClick={handleContactSupport}
+                            className={`text-sm font-medium hover:underline ${isBlue ? 'text-sky-600' : 'text-emerald-600'} flex items-center justify-center gap-1 mx-auto`}
+                        >
+                            <span>Having problems with transportation? Contact admin</span>
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
+                        </button>
+                    </div>
                 </div>
             )}
 
