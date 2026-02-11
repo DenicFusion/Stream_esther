@@ -41,9 +41,9 @@ export const BANK_DETAILS = [
   },
   // Add second account here if needed for dual accounts
   {
-    bankName: "PAGA", 
-    accountNumber: "3244891292",
-    accountName: "MUSA ESTHER"
+    bankName: , 
+    accountNumber: ,
+    accountName:
   }
 ];
 
