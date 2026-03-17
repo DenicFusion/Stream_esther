@@ -35,8 +35,8 @@ export const OPAY_API_URL = "https://sandboxapi.opaycheckout.com/api/v1/internat
 // Bank Details
 export const BANK_DETAILS = [
   {
-    bankName: "OPAY",
-    accountNumber: "7066617981",
+    bankName: "PAGA",
+    accountNumber: "3244891292",
     accountName: "MUSA ESTHER"
   },
   // Add second account here if needed for dual accounts
