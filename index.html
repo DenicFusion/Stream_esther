@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wildrick — Professional Truck Driver</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Source+Sans+3:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --asphalt: #1B1E23;
+    --asphalt-2: #23272E;
+    --paper: #F2EEE4;
+    --steel: #5B6570;
+    --steel-dark: #3A4149;
+    --amber: #E2A33B;
+    --rust: #A8402C;
+    --ink: #211E1A;
+    --line-width: min(92vw, 1040px);
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Source Sans 3', sans-serif;
+    font-size:17px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3{
+    font-family:'Oswald', sans-serif;
+    margin:0;
+    letter-spacing:0.01em;
+  }
+  a{color:inherit;}
+  :focus-visible{outline:3px solid var(--amber); outline-offset:3px;}
+
+  .wrap{
+    width:var(--line-width);
+    margin:0 auto;
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    background:
+      radial-gradient(ellipse 900px 500px at 15% -10%, rgba(226,163,59,0.10), transparent 60%),
+      var(--asphalt);
+    color:var(--paper);
+    padding:5.5rem 0 4rem;
+    position:relative;
+    overflow:hidden;
+  }
+  .hero::after{
+    /* faint road texture: lane dashes receding along the bottom */
+    content:"";
+    position:absolute;
+    left:0; right:0; bottom:0;
+    height:64px;
+    background-image: repeating-linear-gradient(
+      90deg,
+      rgba(242,238,228,0.18) 0px,
+      rgba(242,238,228,0.18) 46px,
+      transparent 46px,
+      transparent 92px
+    );
+    -webkit-mask-image: linear-gradient(to top, black, transparent);
+    mask-image: linear-gradient(to top, black, transparent);
+  }
+  .hero-tag{
+    font-size:0.95rem;
+    color:var(--amber);
+    font-weight:600;
+    margin-bottom:1.1rem;
+    display:flex;
+    align-items:center;
+    gap:0.6rem;
+  }
+  .hero-tag .dot{
+    width:8px;height:8px;border-radius:50%;
+    background:var(--amber);
+    box-shadow:0 0 0 4px rgba(226,163,59,0.18);
+  }
+  .hero h1{
+    font-size:clamp(2.6rem, 7vw, 4.6rem);
+    font-weight:700;
+    line-height:0.98;
+    color:var(--paper);
+  }
+  .hero h1 span{
+    display:block;
+    color:var(--steel);
+    font-weight:500;
+    font-size:0.36em;
+    margin-top:0.7rem;
+    letter-spacing:0.03em;
+  }
+  .hero-location{
+    margin-top:1.6rem;
+    font-size:1.05rem;
+    color:#C8CBCE;
+    display:flex;
+    align-items:center;
+    gap:0.5rem;
+  }
+  .hero-location svg{flex-shrink:0;}
+
+  /* ---------- SECTION SHELL ---------- */
+  section{
+    padding:4.2rem 0;
+    border-bottom:1px solid rgba(0,0,0,0.08);
+  }
+  section:last-of-type{border-bottom:none;}
+  .section-head{
+    display:grid;
+    grid-template-columns: 200px 1fr;
+    gap:2rem;
+    margin-bottom:2.2rem;
+  }
+  .section-head h2{
+    font-size:1.6rem;
+    font-weight:600;
+    color:var(--ink);
+  }
+  .section-kicker{
+    font-family:'Oswald', sans-serif;
+    color:var(--rust);
+    font-weight:600;
+    font-size:0.95rem;
+    letter-spacing:0.02em;
+  }
+  @media (max-width:640px){
+    .section-head{grid-template-columns:1fr; gap:0.5rem;}
+  }
+
+  /* ---------- ABOUT ---------- */
+  .about-body{
+    max-width:64ch;
+    font-size:1.12rem;
+    color:#3a3630;
+  }
+
+  /* ---------- EXPERIENCE: route line ---------- */
+  .route{
+    position:relative;
+    padding-left:2.4rem;
+  }
+  .route::before{
+    content:"";
+    position:absolute;
+    left:9px; top:6px; bottom:6px;
+    width:3px;
+    background: repeating-linear-gradient(
+      to bottom,
+      var(--steel) 0, var(--steel) 14px,
+      transparent 14px, transparent 24px
+    );
+  }
+  .role{
+    margin-bottom:2rem;
+  }
+  .role-title{
+    font-size:1.3rem;
+    font-weight:600;
+  }
+  .role-sub{
+    color:var(--steel-dark);
+    font-size:0.98rem;
+    margin-top:0.15rem;
+  }
+  .stops{
+    list-style:none;
+    margin:1.6rem 0 0;
+    padding:0;
+    display:flex;
+    flex-direction:column;
+    gap:1.1rem;
+  }
+  .stop{
+    position:relative;
+    padding-left:2rem;
+    display:grid;
+    grid-template-columns:1fr;
+  }
+  .stop::before{
+    content:"";
+    position:absolute;
+    left:-2.4rem;
+    top:0.35rem;
+    width:15px; height:15px;
+    border-radius:50%;
+    background:var(--amber);
+    border:3px solid var(--paper);
+    outline:2px solid var(--amber);
+  }
+  .stop-name{
+    font-weight:600;
+    font-size:1.05rem;
+  }
+  .stop-desc{
+    color:#514c44;
+    font-size:0.98rem;
+    margin-top:0.15rem;
+  }
+
+  /* ---------- SKILLS ---------- */
+  .skills-grid{
+    display:flex;
+    flex-wrap:wrap;
+    gap:0.7rem;
+  }
+  .chip{
+    font-family:'Oswald', sans-serif;
+    font-weight:500;
+    font-size:0.98rem;
+    padding:0.6rem 1.1rem;
+    border:2px solid var(--steel-dark);
+    border-radius:2px;
+    color:var(--ink);
+    background:transparent;
+    position:relative;
+  }
+  .chip::before{
+    content:"";
+    position:absolute;
+    left:6px; top:6px; right:6px; bottom:6px;
+    border:1px solid rgba(0,0,0,0.15);
+    pointer-events:none;
+  }
+
+  /* ---------- CONTACT ---------- */
+  .contact-section{
+    background:var(--asphalt-2);
+    color:var(--paper);
+  }
+  .contact-section .section-kicker{color:var(--amber);}
+  .contact-section h2{color:var(--paper);}
+  .contact-row{
+    display:flex;
+    flex-wrap:wrap;
+    gap:1rem;
+    margin-top:0.5rem;
+  }
+  .contact-btn{
+    display:inline-flex;
+    align-items:center;
+    gap:0.6rem;
+    padding:0.85rem 1.4rem;
+    background:var(--amber);
+    color:var(--asphalt);
+    font-family:'Oswald', sans-serif;
+    font-weight:600;
+    font-size:1.02rem;
+    text-decoration:none;
+    border-radius:2px;
+    transition: transform 0.15s ease, background 0.15s ease;
+  }
+  .contact-btn.alt{
+    background:transparent;
+    color:var(--paper);
+    border:2px solid var(--paper);
+  }
+  .contact-btn:hover{ transform: translateY(-2px); }
+  .contact-note{
+    margin-top:1.4rem;
+    color:#9AA1A8;
+    font-size:0.92rem;
+    max-width:52ch;
+  }
+
+  footer{
+    padding:2rem 0 3rem;
+    text-align:center;
+    color:var(--steel);
+    font-size:0.88rem;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    .contact-btn{transition:none;}
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="hero-tag"><span class="dot"></span>Safety-focused &amp; reliable</div>
+    <h1>Wildrick<span>Professional Truck Driver</span></h1>
+    <div class="hero-location">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+      Based in South Carolina
+    </div>
+  </div>
+</header>
+
+<section id="about">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="section-kicker">About</div>
+      <h2>On the road, on time, every time</h2>
+    </div>
+    <p class="about-body">
+      I'm a professional truck driver based in South Carolina with experience in transportation and logistics.
+      I focus on safe driving, reliability, and efficient delivery — planning routes carefully, keeping my vehicle
+      in top condition, and getting freight where it needs to be, when it needs to be there.
+    </p>
+  </div>
+</section>
+
+<section id="experience">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="section-kicker">Experience</div>
+      <h2>Truck Driver</h2>
+    </div>
+    <div class="route">
+      <div class="role">
+        <div class="role-title">Transportation &amp; Logistics</div>
+        <div class="role-sub">Every haul, start to finish</div>
+        <ul class="stops">
+          <li class="stop">
+            <div class="stop-name">Route planning</div>
+            <div class="stop-desc">Mapping efficient, reliable routes before every trip.</div>
+          </li>
+          <li class="stop">
+            <div class="stop-name">Vehicle safety checks</div>
+            <div class="stop-desc">Thorough pre- and post-trip inspections to keep every run safe.</div>
+          </li>
+          <li class="stop">
+            <div class="stop-name">Delivery operations</div>
+            <div class="stop-desc">On-time, careful delivery from pickup to final drop-off.</div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="skills">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="section-kicker">Skills</div>
+      <h2>What I bring to every route</h2>
+    </div>
+    <div class="skills-grid">
+      <span class="chip">Safe driving</span>
+      <span class="chip">Time management</span>
+      <span class="chip">Route navigation</span>
+      <span class="chip">Vehicle inspection</span>
+      <span class="chip">Communication</span>
+      <span class="chip">Problem solving</span>
+    </div>
+  </div>
+</section>
+
+<section id="contact" class="contact-section">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="section-kicker">Contact</div>
+      <h2>Let's talk about your next haul</h2>
+    </div>
+    <div class="contact-row">
+      <a class="contact-btn" href="damonbis968@gmail.com">Email me</a>
+      <a class="contact-btn alt" href="https://www.linkedin.com/in/wildrick-undefined-389258433" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
+    <p class="contact-note">Replace the email address and LinkedIn link above with your real contact details before sharing this site.</p>
+  </div>
+</section>
+
+<footer>
+  Wildrick — Professional Truck Driver, South Carolina
+</footer>
+
+</body>
+        </html>
+
